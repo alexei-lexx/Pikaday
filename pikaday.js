@@ -622,7 +622,22 @@
          */
         toString: function(format)
         {
-            return !isDate(this._d) ? '' : hasMoment ? moment(this._d).format(format || this._o.format) : this._d.toDateString();
+            if (isDate(this._d)) {
+                if (hasMoment) {
+                    return moment(this._d).format(format || this._o.format);
+                }
+                else {
+                    if (typeof this._d.format == 'function') {
+                        return this._d.format(format || this._o.format);
+                    }
+                    else {
+                        return this._d.toDateString();
+                    }
+                }
+            }
+            else {
+                return '';
+            }
         },
 
         /**
